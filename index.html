@@ -9,7 +9,22 @@
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
     <script>
-      // Run queries and display results here
+      
+      // Using the MP.Data method (best approach!)
+      MP.api.segment('page_viewed', undefined, {from: moment().subtract(30, 'days')}).done(function(results) {
+        var mpData = MP.Data.inst(results.values())
+        console.log("Method 1: MPData Sum()")
+        console.log(mpData.sum().values());
+      })
+      
+      // Using the maximum 'interval' to bucket all results in a single key-value pair
+      MP.api.segment('page_viewed', undefined, {from: moment().subtract(30, 'days'), interval: 60}).done(function(results) {
+        console.log("Method 2: Max Interval")
+        console.log(results.values());
+        });
+
+      
+      
     </script>
   </body>
 </html>
